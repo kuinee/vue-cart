@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<meta name="robots" content="noindex">
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.7/vue.min.js
+  "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.17/vue-resource.js"></script>
+   <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+  <div id="app" class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h1 class="text-center">Simple Cart</h1>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class="text-center">序号</th>
+              <th class="text-center">商品名</th>
+              <th class="text-center">单价</th>
+              <th class="text-center">数量</th>
+              <th class="text-center">总计</th>
+              <th class="text-center">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(index,good) in goods">
+              <td class="text-center">{{index+1}}</td>
+              <td class="text-center">{{good.name}}</td>
+              <td class="text-center">￥{{good.price}}</td>
+              <td class="text-center"><input v-model="good.num" type="Number" @change="getTotal(good)" style="width:50px;border-radius:5px" min="0" max="10" ></td>
+              <td class="text-center" width="80px">￥{{good.total}}</td>
+              <td class="text-center"><button @click="delete(index)" type="button" class="btn btn-danger">删除</button><td>
+            </tr>
+           
+           
+            <tr><td colspan="6" class="text-right"><h4>总价:{{totalPrice}} 元</h4><td><tr>
+          </tbody>
+         
+        </table>
+        <legend>
+          添加商品
+        </legend>
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-md-2">商品名</label>
+            <div class="col-md-10">
+              <input v-model="good.name" type="text" class="form-control" id="bookName">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2">单价</label>
+            <div class="col-md-10">
+              <input v-model="good.price" type="text" class="form-control" id="bookAuthor">
+            </div>
+           </div>
+          
+          <div class="col-md-10 col-md-offset-2">
+          <button @click="add()" type="button" class="btn btn-primary btn-block">添加</button>
+          </div>
+         </form>
+      </div>
+    </div>
+  </div>
+<script type="text/ecmascript-6">
+var app=new Vue({
+  el:'#app',
+  data:{
+    good:{
+      name:'',
+      price:'',
+      num:'0',
+      total:'0'
+    },
+    goods:[{
+      name:'手电筒',
+      price:'5.5',
+      num:'0',
+      total:'0'
+    },{
+      name:'毛巾',
+      price:'10.0',
+      num:'0',
+      total:'0'
+    },{
+      name:'洗衣液',
+      price:'13.5',
+      num:'0',
+      total:'0'
+    }
+      
+    ]
+  },
+  computed:{
+   totalPrice:function(){
+     var sum=0;
+     for(var i=0,len=this.goods.length;i<len;i++){
+       sum+=Number(this.goods[i].total);
+     }
+     return sum;
+   }
+  },
+  methods:{
+    getTotal:function(good){
+      good.total=parseFloat(good.price)*parseFloat(good.num);
+    },
+    delete:function(index){
+      this.goods.splice(index,1);
+    },
+    add:function(){
+      this.goods.push(this.good);
+      
+    }
+  }
+})
+</script>
+</body>
+</html>
